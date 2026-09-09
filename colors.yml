@@ -9,7 +9,7 @@ once:
 provider-compute: azure
 provider-smtp: resend
 provider-dns: cloudflare
-provider-backend: local
+provider-backend: r2
 compute-prevent-destroy: true
 
 azure-subscription-id: 6e639471-b818-40c3-a0ce-d36d5f2163b3
@@ -25,3 +25,14 @@ azure-vnet-cidr: 10.10.0.0/16
 azure-subnet-cidr: 10.10.1.0/24
 azure-boot-disk-size-gb: 30
 azure-ssh-authorized-keys: ~/.ssh/id_ed25519.pub
+
+# Existing resources require explicit state transfer before create.
+compute-require-existing-state: true
+
+# Shared workspace R2 state backend; credentials stay in the environment.
+r2-bucket: tofu-state-319271fed8bc6d2d9059362be1165f37-eu
+r2-endpoint: https://319271fed8bc6d2d9059362be1165f37.eu.r2.cloudflarestorage.com
+
+# Explicit public IPv4 SSH and web policy for the shared compute request.
+compute-ssh-sources: [0.0.0.0/0]
+compute-http-sources: [0.0.0.0/0]
